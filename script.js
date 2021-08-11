@@ -1,13 +1,13 @@
 const numberButtons = document.querySelectorAll('[data-number]'); //เข้าถึง data-number ทุกตัว
 const operationButtons = document.querySelectorAll('[data-operation]'); //เข้าถึง data-operation ทุกตัว
 const equalsButtons = document.querySelector('[data-equals]'); //ไม่ต้องใช้ All เพราะมีตัวเดียว ปุ่มเท่ากับ
-const deleteButtons = document.querySelector('[data-dalete]'); //ปุ่ม ลบ
+const deleteButtons = document.querySelector('[data-delete]'); //ปุ่ม ลบ
 const allClearButtons = document.querySelector('[data-all-clear]'); //ปุ่ม C
 
 const currentScreenTextElement = document.querySelector('[data-operand-current]'); //หลัง
 const previousScreenTextElement = document.querySelector('[data-operand-previous]'); //ก่อน
 
-class Caculator { //เมื่อ Caculator ถูกเรียกใช้งาน จะทำงานข้างใน
+class Calculator { //เมื่อ Caculator ถูกเรียกใช้งาน จะทำงานข้างใน
     constructor(currentScreenTextElement,previousScreenTextElement){
         this.currentScreenTextElement = currentScreenTextElement;
         this.previousScreenTextElement = previousScreenTextElement;
@@ -18,6 +18,7 @@ class Caculator { //เมื่อ Caculator ถูกเรียกใช้�
         this.currentOperand = "";
         this.previousOperand = "";
         this.operation = null;
+            
     }
 
     delete() { //ฟังก์ชั่นลบ
@@ -62,7 +63,7 @@ class Caculator { //เมื่อ Caculator ถูกเรียกใช้�
                 computation = previous / current; //หาร
             break;
 
-            default
+            default:
                 return; //ถ้าไม่มีการกระทำให้ส่งค่าว่างออกไป
         }
         this.currentOperand = computation; //เก็บค่าผลลัพธ์ไว้
@@ -83,9 +84,31 @@ const calculator = new Calculator( //สร้างตัวแปร เพื
     previousScreenTextElement   
 );
 
-ืีnumberButtons.forEach((Button) => { //ทำให้ปุ่มใช้งานได้
-    button.addEventListener("click", ()=> { //เมื่้อทำการคลิ๊ก ให้ทำงานต่อ
-        calculator.appendNumber(button.innerText);
+numberButtons.forEach((button) => { //ทำให้ปุ่มใช้งานได้
+    button.addEventListener("click", () => { //เมื่้อทำการคลิ๊ก ให้ทำงานต่อ
+        calculator.appendNumber(button.innerText); //ทำงานงานฟังก์ชั่น appendNumber
+        calculator.updateDisplay(); //แสดงขึ้นหน้าจอ
+    });
+});
+
+operationButtons.forEach((button) => {
+    button.addEventListener("click", () => { //เมื่อทำการคลิ๊ก
+        calculator.flushOperator(button.innerText); //ทำงานฟังก์ชั่น flush 
         calculator.updateDisplay();
     });
+});
+
+equalsButtons.addEventListener("click", () => { //เรียกใช้ฟังก์ชั่น = 
+    calculator.compute(); //เมื่อกดให้ทำการ ไปใช้ฟังก์ชั่นคำนวณ
+    calculator.updateDisplay(); 
+});
+
+allClearButtons.addEventListener("click",() => {
+    calculator.clear(); //เมื่อทำการคลิ๊ก จะไปเรียกใช้ฟังก์ชั่นเคลีย C
+    calculator.updateDisplay();
+});
+
+deleteButtons.addEventListener("click", () => {
+    calculator.delete(); //ลบหลังไปหน้า
+    calculator.updateDisplay();
 });

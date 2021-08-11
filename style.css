@@ -49,6 +49,23 @@
     cursor: pointer;
 }
 
+.calc_btn:hover {
+    background-color: #ebebeb;
+}
+
+.calc_btn:active {
+    background-color: #bbbcbe;
+}
+
+.calc_btn:last-child {
+    background-color: #df9744;
+    color: #fff;
+}
+
+.calc_btn:last-child:hover {
+    background-color: #dfb07e;
+}
+
 .double {
     flex-basis: 49.7%;
 }
